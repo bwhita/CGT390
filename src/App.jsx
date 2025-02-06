@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import About from "./components/About";
+import Navbar from "./components/Navbar";
+import image_man from "./assets/headshot-man.png";
+import image_woman from "./assets/headshot-woman.png";
+import Card from "./components/Card";
+import Wrapper from "./components/wrapper";
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const profiles = [
+    {
+      img: image_man,
+      name: "John Doe",
+      title: "Software Engineer",
+      email: "a@a.com",
+    },
+    {
+      img: image_woman,
+      name: "Jane Doe",
+      title: "Software Engineer",
+      email: "b@b.com",
+    },
+  ];
 
-  return (
+  // const titles = [...newSet(profiles.map((profile) => profile.title))];
+
+  // const [title, setTitle] = useState("");
+  // const handleTitleChange = (event) => {
+  //   setTitle(event.target.value);
+  //   console.log(event.target.value);
+  // }
+
+  return(
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <header>
+      <Navbar />
+      </header>
+      <main>
+        <Wrapper>
+        <h1>Profile App</h1>
+        </Wrapper>
+        <Wrapper>
+          <About />
+        </Wrapper>
+        <Wrapper>
+          {profiles.map(item => <Card key = {item.email} {...item} />)}
+        </Wrapper>
+        {/* <Wrapper>
+          <div className = "filter-wrapper">
+            <div className = "filter--select">
+              <label htmlFor = "title-select">Select a title:</label>
+
+            </div>
+          </div>
+        </Wrapper> */}
+        </main>
+        </>
+  );
+};
 
 export default App
