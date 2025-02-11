@@ -6,6 +6,8 @@ import image_woman from "./assets/headshot-woman.png";
 import Card from "./components/Card";
 import Wrapper from "./components/wrapper";
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
   const profiles = [
@@ -21,15 +23,59 @@ const App = () => {
       title: "Software Engineer",
       email: "b@b.com",
     },
+    {
+      img: image_man,
+      name: "Brian Doe",
+      title: "UX Designer",
+      email: "c@c.com",
+    },
+    {
+      img: image_woman,
+      name: "Jan Johnson",
+      title: "Web Developer",
+      email: "d@d.com",
+    },
+    {
+      img: image_man,
+      name: "Bob Williamson",
+      title: "Graphic Designer",
+      email: "e@e.com",
+    },
+    {
+      img: image_man,
+      name: "Authur Morgan",
+      title: "Web Developer",
+      email: "f@f.com",
+    },
   ];
 
-  // const titles = [...newSet(profiles.map((profile) => profile.title))];
+  const titles = [...new Set(profiles.map((profile) => profile.title))];
 
-  // const [title, setTitle] = useState("");
-  // const handleTitleChange = (event) => {
-  //   setTitle(event.target.value);
-  //   console.log(event.target.value);
-  // }
+  const [title, setTitle] = useState("");
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleClear = () => {
+    setTitle("");
+    setSearch("");
+  };
+
+  const filteredProfiles = profiles.filter(
+    (profile) =>
+    (title === "" || profile.title === title) &&
+    profile.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const buttonStyle = {
+    border: "1px solid #ccc",
+  };
 
   return(
     <>
@@ -44,16 +90,40 @@ const App = () => {
           <About />
         </Wrapper>
         <Wrapper>
-          {profiles.map(item => <Card key = {item.email} {...item} />)}
-        </Wrapper>
-        {/* <Wrapper>
           <div className = "filter-wrapper">
             <div className = "filter--select">
               <label htmlFor = "title-select">Select a title:</label>
-
+              <select
+                id="title-select"
+                onChange = {handleTitleChange}
+                value = {title}
+                >
+                  <option value = "">All</option>
+                  {titles.map((title) => (
+                    <option key = {title} value = {title}>
+                      {title}
+                    </option>
+                  ))}
+                </select>
             </div>
+            <div className = "filter--search">
+              <label  htmlFor = "search">Search by name:</label>
+              <input
+              type = "text"
+              id = "search"
+              onChange = {handleSearchChange}
+              value = {search}
+              />
+            </div>
+            <button onClick = {handleClear} style = {buttonStyle}>
+              <span className = "sr-only">Reset</span>
+              <FontAwesomeIcon icon = {faXmark} />
+            </button>
           </div>
-        </Wrapper> */}
+          <div className = "profile-wrapper">
+          {filteredProfiles.map(item => <Card key = {item.email} {...item} />)}
+          </div>
+        </Wrapper>
         </main>
         </>
   );

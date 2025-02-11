@@ -1,4 +1,6 @@
 @import "./styles/card.css";
+@import "../src/styles/variables.css";
+@import "../src/styles/global.css";
 
 #root {
   max-width: 1280px;

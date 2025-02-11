@@ -1,6 +1,6 @@
-import '../styles/navbar.css';
+import styles from '../styles/navbar.module.css';
 
-const Navbar = () => {
+const Navbar = ({ mode, updateMode }) => {
     return(
         <nav className = "navbar selection">
             <ul>
