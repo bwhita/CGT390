@@ -8,6 +8,7 @@ import Wrapper from "./components/wrapper";
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import ProfileForm from "./components/ProfileForm";
 //import { useEffect } from "react";
 //import { use } from "react";
 
@@ -83,6 +84,7 @@ const App = () => {
   const handleClear = () => {
     setTitle("");
     setSearch("");
+    setAnimation(true);
   };
 
   const filteredProfiles = profiles.filter(
@@ -106,6 +108,9 @@ const App = () => {
         </Wrapper>
         <Wrapper>
           <About />
+        </Wrapper>
+        <Wrapper>
+          <ProfileForm />
         </Wrapper>
         <Wrapper>
           <div className = "filter-wrapper">
