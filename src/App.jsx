@@ -8,8 +8,15 @@ import Wrapper from "./components/wrapper";
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+//import { useEffect } from "react";
+//import { use } from "react";
 
 const App = () => {
+  //lab09
+  //const [profiles, setProfiles] = useState([]);
+  //useEffect (() => (
+    //))
+
   const profiles = [
     {
       img: image_man,
@@ -49,6 +56,16 @@ const App = () => {
     },
   ];
 
+  const [animation, setAnimation] = useState(false);
+  const handleAnimation = () => {
+    setAnimation(false);
+  };
+
+  const [mode, setMode] = useState("light");
+  const handleModeChange = () => {
+    setMode(mode === "light" ? "dark" : "light");
+  };
+
   const titles = [...new Set(profiles.map((profile) => profile.title))];
 
   const [title, setTitle] = useState("");
@@ -60,6 +77,7 @@ const App = () => {
   const [search, setSearch] = useState("");
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
+    setAnimation(true);
   };
 
   const handleClear = () => {
@@ -80,9 +98,9 @@ const App = () => {
   return(
     <>
     <header>
-      <Navbar />
+      <Navbar mode = {mode} updateMode = {handleModeChange}/>
       </header>
-      <main>
+      <main className = {mode === "light" ? "light" : "dark"}>
         <Wrapper>
         <h1>Profile App</h1>
         </Wrapper>
@@ -121,7 +139,15 @@ const App = () => {
             </button>
           </div>
           <div className = "profile-wrapper">
-          {filteredProfiles.map(item => <Card key = {item.email} {...item} />)}
+          {filteredProfiles.map((profile) => (
+            <Card
+              key = {profile.email}
+              {...profile}
+              animate = {animation}
+              updateAnimate = {handleAnimation}
+              />
+          ))}
+          {/* (item => <Card key = {item.email} {...item} />)} */}
           </div>
         </Wrapper>
         </main>

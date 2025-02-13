@@ -78,6 +78,7 @@ a:hover {
 .profile-wrapper {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
 }
 ul,
 ol {
