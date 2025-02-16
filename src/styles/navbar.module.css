@@ -21,7 +21,7 @@
         }
     }
 
-    /* @media screen and (max-width: var(--tablet)) {
+    @media screen and (max-width: var(--tablet)) {
         .navbar {
             padding: 1rem 1.5rem;
         }
@@ -31,7 +31,7 @@
         .navbar {
             padding: 1rem;
         }
-    } */
+    }
 
 
     
@@ -46,6 +46,7 @@
         padding-left:0;
         li{
             margin-right: 1rem;
+            background-color: black;
             a{
                 color: var(--button-text-color);
             }

@@ -1,97 +1,62 @@
 import "./App.css";
 import About from "./components/About";
 import Navbar from "./components/Navbar";
-import image_man from "./assets/headshot-man.png";
-import image_woman from "./assets/headshot-woman.png";
 import Card from "./components/Card";
-import Wrapper from "./components/wrapper";
+import Wrapper from "./components/Wrapper";
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 import ProfileForm from "./components/ProfileForm";
-//import { useEffect } from "react";
-//import { use } from "react";
+import { useEffect } from "react";
 
 const App = () => {
-  //lab09
-  //const [profiles, setProfiles] = useState([]);
-  //useEffect (() => (
-    //))
 
-  const profiles = [
-    {
-      img: image_man,
-      name: "John Doe",
-      title: "Software Engineer",
-      email: "a@a.com",
-    },
-    {
-      img: image_woman,
-      name: "Jane Doe",
-      title: "Software Engineer",
-      email: "b@b.com",
-    },
-    {
-      img: image_man,
-      name: "Brian Doe",
-      title: "UX Designer",
-      email: "c@c.com",
-    },
-    {
-      img: image_woman,
-      name: "Jan Johnson",
-      title: "Web Developer",
-      email: "d@d.com",
-    },
-    {
-      img: image_man,
-      name: "Bob Williamson",
-      title: "Graphic Designer",
-      email: "e@e.com",
-    },
-    {
-      img: image_man,
-      name: "Authur Morgan",
-      title: "Web Developer",
-      email: "f@f.com",
-    },
-  ];
-
-  const [animation, setAnimation] = useState(false);
-  const handleAnimation = () => {
-    setAnimation(false);
-  };
-
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("light")
   const handleModeChange = () => {
     setMode(mode === "light" ? "dark" : "light");
   };
 
-  const titles = [...new Set(profiles.map((profile) => profile.title))];
+  const [titles, setTitles] = useState ([]);
+  useEffect(() => {
+    fetch("https://web.ics.purdue.edu/~whitak44/profile-app/get-titles.php")
+    .then((res) => res.json())
+    .then((data) => {
+      setTitles(data.titles);
+      console.log(data.titles);
+    })
+  }, []);
 
   const [title, setTitle] = useState("");
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    console.log(event.target.value);
+    setPage(1);
   };
 
   const [search, setSearch] = useState("");
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
-    setAnimation(true);
+    setPage(1);
   };
+
+  const [profiles, setProfiles] = useState([]);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+
+  useEffect (() => {
+    fetch(`https://web.ics.purdue.edu/~whitak44/profile-app/fetch-data-with-filter.php?title=${title}&name=${search}&page=${page}&limit=10`)
+    .then((res) => res.json())
+    .then((data) => {
+      setProfiles(data.profiles);
+      setCount(data.count);
+      setPage(data.page);
+    });
+  }, [title, search, page]);
 
   const handleClear = () => {
     setTitle("");
     setSearch("");
-    setAnimation(true);
+    setPage(1);
   };
-
-  const filteredProfiles = profiles.filter(
-    (profile) =>
-    (title === "" || profile.title === title) &&
-    profile.name.toLowerCase().includes(search.toLowerCase())
-  );
 
   const buttonStyle = {
     border: "1px solid #ccc",
@@ -144,16 +109,30 @@ const App = () => {
             </button>
           </div>
           <div className = "profile-wrapper">
-          {filteredProfiles.map((profile) => (
+          {profiles.map((profile) => (
             <Card
-              key = {profile.email}
+              key = {profile.id}
               {...profile}
-              animate = {animation}
-              updateAnimate = {handleAnimation}
               />
           ))}
-          {/* (item => <Card key = {item.email} {...item} />)} */}
           </div>
+          {
+            count === 0 && <p>No profiles found!</p>
+          }
+          {count > 10 &&
+            <div className="pagination">
+            <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+              <span className="sr-only">Previous</span>
+              <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+            <span>{page}/{math.ceil(count/10)}</span>
+            <button onClick={() => setPage(page + 1)} disabled={page >= Math.ceil(count/10)}>
+              <span className="sr-only">Next</span>
+              <FontAwesomeIcon icon={faChevronRight} />
+              </button>
+          </div>
+          }
+          
         </Wrapper>
         </main>
         </>
