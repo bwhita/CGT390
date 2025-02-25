@@ -205,12 +205,13 @@ li {
     flex-direction: column;
   }
 }
-/* profile container */
+/* profile container
 .profile-cards {
   display: flex;
   flex-wrap: wrap;
   margin: -0.75rem;
-}
+} */
+
 /* button*/
 button {
   background-color: var(--button-background-color);
@@ -226,7 +227,7 @@ button:hover {
   color: var(--button-hover-text-color);
 }
 /* filters */
-.filter-wrapper {
+/* .filter-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -243,11 +244,11 @@ select,
 input {
   padding: 0.5rem;
   font-size: 1rem;
-}
+} */
 
 /* Pagination */
 
-.pagination {
+/* .pagination {
   display: flex;
   justify-context: center;
   align-items: center;
@@ -258,6 +259,6 @@ input {
     color: var(--button-hover-text-color);
   }
   button{
-    margin: 0.5rem;
-  }
-}
+    margin: 0.5rem; */
+  /* } */
+/* } */
