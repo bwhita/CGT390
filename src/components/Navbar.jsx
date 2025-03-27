@@ -2,7 +2,6 @@ import styles from '../styles/navbar.module.css';
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
-import { useMode } from "../contexts/ModeContext";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggle } from '../redux/slices/modeSlice';
 
@@ -18,7 +17,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const handleClick = () => {
         logout();
-        
+
     }
 
     

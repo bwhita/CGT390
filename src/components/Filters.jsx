@@ -42,13 +42,6 @@ const Filters = memo(({titles, title, search, handleClear, handleSearchChange, h
                   value = {search}
                   />
                 </div>
-                <div className = {styles["profile-wrapper"]}>
-                      {profiles.map((profile) => (
-                        <Link to = {`/profile/${profile.id}`} key = {profile.id}>
-                          <Card {...profile} />
-                          </Link>
-                      ))}
-                </div>
         </div>
     )
 });

@@ -29,22 +29,28 @@ const HomePage = () => {
   const handleClear = useCallback(() => {
     dispatch({ type: "CLEAR_FILTERS" })
   }, []);
-
-  const titlesValue = useMemo(() => titles, {titles});
+console.log(titles)
+  const titlesValue = useMemo(() => titles, [titles]);
   
 
   return(
     <Wrapper>
     <h1>Profile App</h1>
     <Filters
-    titles = {titles}
+    titles = {titlesValue}
     title = {title} 
     search = {search}
     handleClear = {handleClear}
     handleSearchChange = {handleSearchChange}
     handleTitleChange = {handleTitleChange}
     />
-
+          <div className = {styles["profile-wrapper"]}>
+                      {profiles.map((profile) => (
+                        <Link to = {`/profile/${profile.id}`} key = {profile.id}>
+                          <Card {...profile} />
+                          </Link>
+                      ))}
+          </div>
       
       {
         count === 0 && <p>No profiles found!</p>

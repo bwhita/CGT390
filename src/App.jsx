@@ -12,7 +12,6 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute"
-import { useMode } from "./contexts/ModeContext";
 import { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 
@@ -47,8 +46,7 @@ const LazyComponent = lazy(() => import("./pages/ProfileDetailPage"));
       </Routes>
       </main>
       </HashRouter>
-      </AuthProvider>,
-      document.getElementById("root")
+      </AuthProvider>
     );    
 };
 
