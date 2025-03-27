@@ -5,6 +5,11 @@
     flex-wrap: wrap;
     margin: -0.75rem;
   }
+
+.profile-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
   .filter-wrapper {
     display: flex;
     flex-wrap: wrap;

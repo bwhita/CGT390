@@ -4,40 +4,49 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import AddProfile from "./pages/AddProfile";
 import NotFound from "./pages/NotFound";
-import { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route} from "react-router-dom";
 import ProfileDetailPage from "./pages/ProfileDetailPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import ProfileLayoutPage from "./pages/ProfileLayoutPage";
-
-
-    // "react-router-dom": "^7.1.5"
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute"
+import { useMode } from "./contexts/ModeContext";
+import { lazy, Suspense } from "react";
 
 const App = () => {
 
-  const [mode, setMode] = useState("light")
-  const handleModeChange = () => {
-    setMode(mode === "light" ? "dark" : "light");
-  };
+// const { mode } = useMode();
+const LazyComponent = lazy(() => import("./pages/ProfileDetailPage"));
 
   return(
+    <AuthProvider>
     <HashRouter>
     <header>
-      <Navbar mode = {mode} updateMode = {handleModeChange} />
+      <Navbar />
       </header>
       <main className = {mode === "light" ? "light" : "dark"}>
       <Routes>
         <Route path = "/" element = {<HomePage />} />
-        <Route path = "/add-profile" element = {<AddProfile />} />
         <Route path = "/about" element = {<AboutPage />} />
+        <Route path = "/add-profile" element = {
+          <ProtectedRoute>
+            <AddProfile />
+          </ProtectedRoute>
+        } />
         <Route path = "*" element = {<NotFound />} />
-        <Route path = "/profile/:id" element = {<ProfileLayoutPage />} >
-        <Route index element ={<ProfileDetailPage/>} />
-        <Route path = "edit" element = {<ProfileEditPage />} />
+        <Route path = "/profile/:id" element = {<ProfileLayoutPage />} >   
+        <Route index element ={<Suspense fallback = {<div>Loading...</div>}><LazyComponent /></Suspense>} />
+        <Route path = "edit" element = {<ProtectedRoute><ProfileEditPage /></ProtectedRoute>} />
         </Route>
+        <Route path = "login" element = {<LoginPage />} />
+        <Route path = "register" element = {<RegisterPage />} />
       </Routes>
       </main>
       </HashRouter>
+      </AuthProvider>,
+      document.getElementById("root")
     );    
 };
 

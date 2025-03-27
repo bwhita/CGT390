@@ -1,34 +1,36 @@
 import Wrapper from "../components/wrapper";
 import {useParams} from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import styles from "../styles/profiledetail.module.css";
+import { Link } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
 const ProfileDetailPage = () => {
     const {id} = useParams();
-    const [profile, setProfile] = useState(null);
+    const [profile, setProfile] = useState({});
+    const { isLogin } = useContext(AuthContext);
 
     useEffect (() => {
         fetch(`https://web.ics.purdue.edu/~whitak44/profile-app/fetch-data-with-id.php?id=${id}`)
             .then((res) => res.json())
             .then((data) => {
                 setProfile(data)
-                console.log(data)
-    });
-    }, [id])
+      });
+    }, [id]);
 
   return(
 
         <Wrapper>
-            {!profile ? (
-                <p>Loading...</p>
-            ): (
-           <> 
           <h1>{profile.name}</h1>
+          <div className= {styles["flex-container"]}>
+            <p>{profile.title}</p>
           <p>
               <a href = {`mailto:${profile.email}`}> {profile.email} </a>
-      </p><p>{profile.bio}</p>
+      </p>
+      <p>{profile.bio}</p>
       <img src={profile.img} alt={profile.name} />
-      </>
-            )}
+      {isLogin && <Link to = "edit" className = {styles['button']}>Edit Profile</Link>}
+        </div>
         </Wrapper>
         
   );

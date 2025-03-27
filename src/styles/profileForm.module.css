@@ -70,6 +70,10 @@
     }
   
   }
+  p.profile-text, label, input{
+    color: var(--text-color)
+  }
+  
   @media screen and (max-width: var(--mobile)){ 
     .profile-form{
       padding: 20px;
