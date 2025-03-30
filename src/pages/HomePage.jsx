@@ -10,6 +10,7 @@ import { initialState, homeReducer } from "../reducers/homeReducer";
 import useHomepageAPI from "../hooks/homepageAPI";
 import Filters from "../components/Filters"
 import { useMemo } from "react";
+import PageinationPage from "../components/PageinationPage";
 
 const HomePage = () => {
 
@@ -44,34 +45,14 @@ console.log(titles)
     handleSearchChange = {handleSearchChange}
     handleTitleChange = {handleTitleChange}
     />
-          <div className = {styles["profile-wrapper"]}>
-                      {profiles.map((profile) => (
-                        <Link to = {`/profile/${profile.id}`} key = {profile.id}>
-                          <Card {...profile} />
-                          </Link>
-                      ))}
-          </div>
-      
-      {
-        count === 0 && <p>No profiles found!</p>
-      }
-      {count > 10 && (
-        <div className = {styles["pagination"]}>
-        <button onClick={() => dispatch({type: "SET_PAGE", payload: page - 1 })} disabled={page === 1}>
-          <span className="sr-only">Previous</span>
-          <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-        <span>
-          {page}/{math.ceil(count/10)}
-          </span>
-        <button onClick={() => dispatch({ type: "SET_PAGE", payload: page + 1})} 
-        disabled={page >= Math.ceil(count/10)}>
-          <span className="sr-only">Next</span>
-          <FontAwesomeIcon icon={faChevronRight} />
-          </button>
+      <div className = {styles["profile-wrapper"]}>
+        {profiles.map((profile) => (
+        <Link to = {`/profile/${profile.id}`} key = {profile.id}>
+        <Card {...profile} />
+        </Link>
+        ))}
       </div>
-      )}
-      
+      <PageinationPage count = {count} page = {page} dispatch = {dispatch} />
     </Wrapper>
   );
 };
